@@ -42,6 +42,9 @@ main {
     border: 3px solid #5FB1D9;
     border-radius: 10px;
 }
+.right-panel {
+    overflow: hidden;
+}
 .height-100 {
     height: 100%;
 }
@@ -74,4 +77,25 @@ ul[dnd-list] .dndPlaceholder {
 ul[dnd-list] li.selected {
     background-color: #dff0d8;
     color: #3c763d;
+}
+#panzoom-resultado {
+    width: 100%;
+    height: 80%;
+    border: 1px solid #999;
+    border-radius: 10px;
+}
+.tabuleiro tr td {
+    border: 1px solid #dedede;
+    width: 60px;
+    height: 60px;
+}
+.quadro-personagem {
+    position: relative;
+}
+.quadro-personagem i {
+    position: absolute;
+    font-size: 2em;
+    top: 0px;
+    left: 0px;
+    color: #ff0d0d;
 }

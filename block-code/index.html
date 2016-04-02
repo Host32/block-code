@@ -95,7 +95,20 @@
 
                 <div class="col-xs-12 col-sm-12 col-md-6 height-100 right-panel">
                     <h3>Veja o resultado</h3>
-                    <div></div>
+                    <panzoom config="panzoomConfig" model="panzoomModel" id="panzoom-resultado">
+                        <div>
+                            <table class="tabuleiro">
+                                <tr ng-repeat="linha in quadros">
+                                    <td ng-repeat="quadro in linha">
+                                        <div ng-if="quadro.personagem" class="quadro-personagem">
+                                            <img src="/avatar.png" width="60" height="60" />
+                                            <i class="{{direcaoToIcon()}}"></i>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </panzoom>
                 </div>
             </div>
         </div>
