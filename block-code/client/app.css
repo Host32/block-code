@@ -48,3 +48,26 @@ main {
 .text-yellow {
     color: #ff0;
 }
+.peca {
+    cursor: pointer;
+}
+ul[dnd-list],
+ul[dnd-list] > li {
+    position: relative;
+}
+ul[dnd-list] {
+    min-height: 42px;
+    padding-left: 0px;
+}
+ul[dnd-list] .dndDraggingSource {
+    display: none;
+}
+ul[dnd-list] .dndPlaceholder {
+    display: block;
+    background-color: #ddd;
+    min-height: 42px;
+}
+ul[dnd-list] li.selected {
+    background-color: #dff0d8;
+    color: #3c763d;
+}
