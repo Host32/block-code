@@ -57,12 +57,14 @@
                     <div class="pecas">
                         <h4>Peças disponíveis</h4>
                         <ul class="list-group">
-                            <li ng-repeat="peca in pecas" dnd-draggable="peca" dnd-effect-allowed="move" dnd-selected="selected = peca" ng-class="'list-group-item peca' + {'selected': selected === peca}">{{peca.label}}</li>
+                            <li ng-repeat="peca in pecas" dnd-draggable="peca" dnd-effect-allowed="move" dnd-selected="selected = peca" ng-class="'list-group-item peca ' + {'selected': selected === peca}" style="background: {{peca.background}}">
+                                <span class="badge" style="background: {{peca.badgeBackground}}"><i class="{{peca.icon}}"></i></span> {{peca.label}}
+                            </li>
                         </ul>
                     </div>
                 </div>
 
-                <div class="col-xs-12 col-sm-9 col-md-5 height-100 center-panel">
+                <div class="col-xs-12 col-sm-9 col-md-4 height-100 center-panel">
                     <h3>Complete o desafio</h3>
                     <div class="panel panel-success">
                         <div class="panel-heading">
@@ -70,15 +72,20 @@
                         </div>
                         <div class="panel-body">
                             <ul class="list-group" dnd-list="programa">
-                                <li ng-repeat="peca in programa" dnd-draggable="peca" dnd-moved="programa.splice($index, 1)" dnd-effect-allowed="move" dnd-selected="selected = peca" ng-class="'list-group-item peca' + {'selected': selected === peca}">
-                                    {{peca.label}}
+                                <li ng-repeat="peca in programa" dnd-draggable="peca" dnd-moved="programa.splice($index, 1)" dnd-effect-allowed="move" dnd-selected="selected = peca" ng-class="'list-group-item peca ' + {'selected': selected === peca}" style="background: {{peca.background}}">
+                                    <span class="badge" style="background: {{peca.badgeBackground}}"><i class="{{peca.icon}}"></i></span> {{peca.label}}
                                 </li>
+                                <li class="list-group-item selected"></li>
                             </ul>
+                        </div>
+                        <div class="panel-footer text-right">
+                            <button class="btn btn-default" type="button" ng-click="reiniciar()">Reiniciar</button>
+                            <button class="btn btn-primary" ng-click="executar()">Executar</button>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-xs-12 col-sm-12 col-md-5 height-100 right-panel">
+                <div class="col-xs-12 col-sm-12 col-md-6 height-100 right-panel">
                     teste
                 </div>
             </div>
