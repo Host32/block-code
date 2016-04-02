@@ -98,11 +98,17 @@
                     <panzoom config="panzoomConfig" model="panzoomModel" id="panzoom-resultado">
                         <div>
                             <table class="tabuleiro">
-                                <tr ng-repeat="linha in quadros">
+                                <tr ng-repeat="linha in quadros" style="width: {{linha.length * 60}}px">
                                     <td ng-repeat="quadro in linha">
                                         <div ng-if="quadro.personagem" class="quadro-personagem">
                                             <img src="/avatar.png" width="60" height="60" />
                                             <i class="{{direcaoToIcon()}}"></i>
+                                        </div>
+                                        <div ng-if="quadro.chegada" class="quadro-chegada">
+                                            <i class="fa fa-certificate"></i>
+                                        </div>
+                                        <div ng-if="quadro.inacessivel" class="quadro-inacessivel">
+                                            <i class="fa fa-close"></i>
                                         </div>
                                     </td>
                                 </tr>

@@ -84,10 +84,15 @@ ul[dnd-list] li.selected {
     border: 1px solid #999;
     border-radius: 10px;
 }
+.tabuleiro tr {
+    display: block;
+}
 .tabuleiro tr td {
     border: 1px solid #dedede;
     width: 60px;
     height: 60px;
+    display: inline-block;
+    text-align: center;
 }
 .quadro-personagem {
     position: relative;
@@ -98,4 +103,12 @@ ul[dnd-list] li.selected {
     top: 0px;
     left: 0px;
     color: #ff0d0d;
+}
+.quadro-chegada {
+    font-size: 3.5em;
+    color: #25ba31;
+}
+.quadro-inacessivel {
+    font-size: 3.5em;
+    color: #f21818;
 }

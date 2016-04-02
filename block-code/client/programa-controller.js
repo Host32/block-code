@@ -11,6 +11,38 @@
             }
         };
 
+        $scope.quadrosBanco = [
+            {
+                pontoChegada: true,
+                inacessivel: false,
+                posicao: {
+                    x: 9,
+                    y: 9
+                }
+            }, {
+                pontoChegada: false,
+                inacessivel: true,
+                posicao: {
+                    x: 8,
+                    y: 9
+                }
+            }, {
+                pontoChegada: false,
+                inacessivel: true,
+                posicao: {
+                    x: 7,
+                    y: 9
+                }
+            }, {
+                pontoChegada: false,
+                inacessivel: true,
+                posicao: {
+                    x: 6,
+                    y: 9
+                }
+            }
+        ];
+
         $scope.personagem = {
             direcao: 'cima',
             posicao: {
@@ -35,19 +67,23 @@
 
         $scope.quadros = [];
 
+        function buscaQuadro(x, y) {
+            return _.find($scope.quadrosBanco, function (quadro) {
+                return quadro.posicao.x === x && quadro.posicao.y === y;
+            });
+        }
+
         var x, y, quadro;
         for (x = 0; x < $scope.tabuleiro.tamanho.x; x += 1) {
             $scope.quadros.push([]);
             for (y = 0; y < $scope.tabuleiro.tamanho.y; y += 1) {
-                quadro = {
-                    personagem: false
-                };
+                quadro = buscaQuadro(x, y);
 
-                if ($scope.personagem.posicao.x === x && $scope.personagem.posicao.y === y) {
-                    quadro.personagem = true;
-                }
-
-                $scope.quadros[x].push(quadro);
+                $scope.quadros[x].push({
+                    personagem: ($scope.personagem.posicao.x === x && $scope.personagem.posicao.y === y),
+                    chegada: quadro && quadro.pontoChegada,
+                    inacessivel: quadro && quadro.inacessivel
+                });
             }
         }
 
