@@ -28,7 +28,15 @@
             }
         ];
 
+        $scope.discarte = [];
+
+        $scope.resetDiscarte = function () {
+            $scope.discarte = [];
+        };
+
+
         $scope.programa = [];
+
 
         $scope.reiniciar = function () {
             $scope.programa = [];
