@@ -1,0 +1,50 @@
+html {
+    height: 100%;
+}
+body {
+    background: #5FB1D9;
+    padding-top: 70px;
+    margin: 0px;
+    height: 100%;
+}
+.navbar-collapse.in {
+    overflow-y: visible !Important;
+}
+@media(max-width: 992px) {
+    #login-buttons.login-buttons-dropdown-align-right #login-dropdown-list {
+        right: auto !Important;
+    }
+}
+.nav a {
+    color: #e0e0e0 !Important;
+}
+.nav a:hover,
+.nav a:focus {
+    color: #ffffff !Important;
+}
+#login-dropdown-list {
+    background: #057AAF;
+    border: 1px solid #581d1f;
+    color: #e0e0e0 !Important;
+}
+.navbar-fixed-top {
+    background: #057AAF;
+}
+main {
+    padding-bottom: 20px;
+}
+.left-panel,
+.center-panel,
+.right-panel {
+    background: #fff;
+    padding: 10px 20px;
+    overflow: auto;
+    border: 3px solid #5FB1D9;
+    border-radius: 10px;
+}
+.height-100 {
+    height: 100%;
+}
+.text-yellow {
+    color: #ff0;
+}
