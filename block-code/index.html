@@ -101,7 +101,7 @@
                             <table class="tabuleiro">
                                 <tr ng-repeat="linha in quadros" style="width: {{linha.length * 60}}px">
                                     <td ng-repeat="quadro in linha">
-                                        <div ng-if="quadro.personagem" class="quadro-personagem">
+                                        <div ng-if="personageInQuadro(quadro)" class="quadro-personagem">
                                             <img src="/avatar.png" width="60" height="60" />
                                             <i class="{{direcaoToIcon()}}"></i>
                                         </div>

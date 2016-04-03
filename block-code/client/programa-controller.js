@@ -1,3 +1,4 @@
+/*jslint white:true*/
 (function () {
     'use strict';
 
@@ -51,8 +52,11 @@
             }
         };
 
+        $scope.personageInQuadro = function (quadro) {
+            return ($scope.personagem.posicao.x === quadro.x && $scope.personagem.posicao.y === quadro.y);
+        };
+
         $scope.direcaoToIcon = function direcaoToIcon() {
-            /*jslint white:true*/
             switch ($scope.personagem.direcao) {
                 case 'cima':
                     return 'fa fa-arrow-circle-o-up';
@@ -74,13 +78,14 @@
         }
 
         var x, y, quadro;
-        for (x = 0; x < $scope.tabuleiro.tamanho.x; x += 1) {
+        for (y = 0; y < $scope.tabuleiro.tamanho.y; y += 1) {
             $scope.quadros.push([]);
-            for (y = 0; y < $scope.tabuleiro.tamanho.y; y += 1) {
+            for (x = 0; x < $scope.tabuleiro.tamanho.x; x += 1) {
                 quadro = buscaQuadro(x, y);
 
-                $scope.quadros[x].push({
-                    personagem: ($scope.personagem.posicao.x === x && $scope.personagem.posicao.y === y),
+                $scope.quadros[y].push({
+                    x: x,
+                    y: y,
                     chegada: quadro && quadro.pontoChegada,
                     inacessivel: quadro && quadro.inacessivel
                 });
@@ -90,24 +95,38 @@
         $scope.pecas = [
             {
                 label: 'Andar',
-                icon: 'fa fa-arrow-up',
+                icon: 'fa fa-male',
                 background: '#0792A9',
                 badgeBackground: '#138D74',
                 comando: 'andar'
             },
             {
-                label: 'Girar para direita',
-                icon: 'fa fa-rotate-right',
+                label: 'Virar para direita',
+                icon: 'fa fa-arrow-right',
                 background: '#D73858',
                 badgeBackground: '#7C2C2F',
                 comando: 'girarDireita'
             },
             {
-                label: 'Girar para esquerda',
-                icon: 'fa fa-rotate-left',
+                label: 'Virar para esquerda',
+                icon: 'fa fa-arrow-left',
                 background: '#FBD8A0',
                 badgeBackground: '#D4892E',
                 comando: 'girarEsquerda'
+            },
+            {
+                label: 'Virar para cima',
+                icon: 'fa fa-arrow-up',
+                background: '#b238d7',
+                badgeBackground: '#452c7c',
+                comando: 'girarCima'
+            },
+            {
+                label: 'Virar para baixo',
+                icon: 'fa fa-arrow-down',
+                background: '#a7fba0',
+                badgeBackground: '#2ed441',
+                comando: 'girarBaixo'
             }
         ];
 
@@ -125,9 +144,101 @@
             $scope.programa = [];
         };
 
+        /**
+         * Verifica se a posição passada nos parâmetros é valida.
+         * @posicaoX : Posição x do tabuleiro.
+         * @posicaoY : Posição y do tabuleiro.
+         */
+        function validaPosicao(posicaoX, posicaoY) {
+
+            //                        var inacessiveis = Quadros.findOne({
+            //                            tabuleiroId: 5, // COLOCAR O ID CORRETo, QUE DEVE VIR EXTERNO
+            //                            posicao: {
+            //                                x: posicaoX,
+            //                                y: posicaoY
+            //                            },
+            //                            inacessivels: true
+            //                        }).fetch();
+            //
+            //                        if (inacessiveis) {
+            //
+            //                            return false;
+            //                        } else {
+
+            // COLOCAR O NOME CORRETO DO TABULEIRO
+            return (posicaoX <= $scope.tabuleiro.tamanho.x && posicaoX >= 0 && $scope.tabuleiro.tamanho.Y <= posicaoY && posicaoY >= 0);
+            //               }
+        }
+
+
+        /**
+         * Move o personagem um quadro para frente na direção do personagem.
+         */
+        function andar() {
+
+            switch ($scope.personagem.direcao) {
+                case 'cima':
+                    if (validaPosicao($scope.personagem.posicao.x, $scope.personagem.posicao.y - 1)) {
+                        $scope.personagem.posicao.y -= 1;
+                    }
+                    break;
+
+                case 'baixo':
+                    if (validaPosicao($scope.personagem.posicao.x, $scope.personagem.posicao.y + 1)) {
+                        $scope.personagem.posicao.y += 1;
+                    }
+                    break;
+
+                case 'direita':
+                    if (validaPosicao($scope.personagem.posicao.x + 1, $scope.personagem.posicao.y)) {
+                        $scope.personagem.posicao.x += 1;
+                    }
+                    break;
+
+                case 'esquerda':
+                    if (validaPosicao($scope.personagem.posicao.x - 1, $scope.personagem.posicao.y)) {
+                        $scope.personagem.posicao.x -= 1;
+                    }
+                    break;
+            }
+        }
+
+
+        /**
+         * Seta a posoção do personagem para a recebina por parâmetro.
+         * @direcao : esquerda ou direita
+         */
+        function girar(direcao) {
+            $scope.personagem.direcao = direcao;
+        }
+
+        function processar(bloco) {
+            switch (bloco.comando) {
+                case 'andar':
+                    andar();
+                    break;
+
+                case 'girarCima':
+                    girar('cima');
+                    break;
+
+                case 'girarBaixo':
+                    girar('baixo');
+                    break;
+
+                case 'girarDireita':
+                    girar('direita');
+                    break;
+
+                case 'girarEsquerda':
+                    girar('esquerda');
+                    break;
+            }
+        }
+
         function popPrograma() {
             $scope.$apply(function () {
-                $scope.programa.shift();
+                processar($scope.programa.shift());
             });
         }
 
