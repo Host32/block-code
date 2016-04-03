@@ -30,7 +30,7 @@
             }, function (err, tabuleiroInserido) {
                 Quadros.insert($scope.tabuleiro.quadros.map(function (quadro) {
                     return {
-                        tabuleiroId: tabuleiroInserido._id,
+                        tabuleiroId: tabuleiroInserido,
                         x: quadro.x,
                         y: quadro.y,
                         inacessivel: quadro.inacessivel,
