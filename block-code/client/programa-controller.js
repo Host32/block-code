@@ -9,7 +9,12 @@
             tamanho: {
                 x: 10,
                 y: 10
-            }
+            },
+            posicaoInicial: {
+                x: 0,
+                y: 0
+            },
+            direcaoInicial: 'cima'
         };
 
         $scope.quadrosBanco = [
@@ -45,14 +50,14 @@
         ];
 
         $scope.personagem = {
-            direcao: 'cima',
+            direcao: $scope.tabuleiro.direcaoInicial,
             posicao: {
-                x: 0,
-                y: 0
+                x: $scope.tabuleiro.posicaoInicial.x,
+                y: $scope.tabuleiro.posicaoInicial.y
             }
         };
 
-        $scope.personageInQuadro = function (quadro) {
+        $scope.personagemNoQuadro = function (quadro) {
             return ($scope.personagem.posicao.x === quadro.x && $scope.personagem.posicao.y === quadro.y);
         };
 
@@ -142,6 +147,9 @@
 
         $scope.reiniciar = function () {
             $scope.programa = [];
+            $scope.personagem.posicao.x = $scope.tabuleiro.posicaoInicial.x;
+            $scope.personagem.posicao.y = $scope.tabuleiro.posicaoInicial.y;
+            $scope.personagem.direcao = $scope.tabuleiro.direcaoInicial;
         };
 
         /**
@@ -166,7 +174,7 @@
             //                        } else {
 
             // COLOCAR O NOME CORRETO DO TABULEIRO
-            return (posicaoX <= $scope.tabuleiro.tamanho.x && posicaoX >= 0 && $scope.tabuleiro.tamanho.Y <= posicaoY && posicaoY >= 0);
+            return (posicaoX < $scope.tabuleiro.tamanho.x && posicaoX >= 0 && posicaoY < $scope.tabuleiro.tamanho.y && posicaoY >= 0);
             //               }
         }
 
