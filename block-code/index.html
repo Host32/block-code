@@ -1,0 +1,161 @@
+<head>
+    <title>Block Code</title>
+</head>
+
+<body ng-app="block-code">
+    <header ng-controller="HeaderController">
+        <nav class="nav navbar-inverse navbar-fixed-top">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">Block Code</a>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="navbar-collapse">
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li ng-if="currentUser">
+                            <a href="#">
+                                <i class="text-yellow fa fa-trophy"></i> 3
+                            </a>
+                        </li>
+                        <li ng-if="currentUser">
+                            <a href="#">
+                                <i class="text-yellow fa fa-star"></i> 5.000
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <login-buttons align="right"></login-buttons>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+            </div>
+            <!-- /.container-fluid -->
+        </nav>
+    </header>
+
+    <main class="height-100">
+        <div class="container-fluid height-100" ng-controller="ProgramaController">
+
+            <div id="processando" ng-class="{'hide': !processando}">
+            </div>
+
+            <div class="row height-100">
+                <div class="col-xs-12 col-sm-3 col-md-2 height-100 left-panel">
+                    <div>
+                        <h3>Fase 1</h3>
+                        <p>
+                            Essa fase é muito fácil, você só precisa mover o personagem!
+                        </p>
+                    </div>
+                    <div class="pecas">
+                        <h4>Peças disponíveis</h4>
+                        <ul class="list-group">
+                            <li ng-repeat="peca in pecas" dnd-draggable="peca" dnd-effect-allowed="move" dnd-selected="selected = peca" ng-class="'list-group-item peca ' + {'selected': selected === peca}" style="background: {{peca.background}}">
+                                <span class="badge" style="background: {{peca.badgeBackground}}"><i class="{{peca.icon}}"></i></span> {{peca.label}}
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <ul class="list-group" dnd-list="discarte" dnd-inserted="resetDiscarte()">
+                            <li dnd-selected="selected = peca" ng-class="'list-group-item clearfix ' + {'selected': selected === peca}">
+                                <div class="pull-left"><i class="fa fa-trash icon-discarte"></i></div>
+                                <div>Solte as peças aqui para descartá-las</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-9 col-md-4 height-100 center-panel">
+                    <h3>Complete o desafio</h3>
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            Arraste e solte as peças aqui
+                        </div>
+                        <div class="panel-body">
+                            <ul id="execution-list" class="list-group" dnd-list="programa">
+                                <li ng-repeat="peca in programa" dnd-draggable="peca" dnd-moved="programa.splice($index, 1)" dnd-effect-allowed="move" dnd-selected="selected = peca" ng-class="'list-group-item peca ' + {'selected': selected === peca}" style="background: {{peca.background}}">
+                                    <span class="badge" style="background: {{peca.badgeBackground}}"><i class="{{peca.icon}}"></i></span> {{peca.label}}
+                                </li>
+                                <li class="list-group-item selected"></li>
+                            </ul>
+                        </div>
+                        <div class="panel-footer text-right">
+                            <button class="btn btn-default" type="button" ng-click="reiniciar()">Reiniciar</button>
+                            <button class="btn btn-primary" ng-click="executar()">Executar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-6 height-100 right-panel">
+                    <h3>Veja o resultado</h3>
+                    <panzoomwidget panzoom-id="panzoom-resultado" style="position:absolute;top:80px;right:30px;z-index:1"></panzoomwidget>
+                    <panzoom config="panzoomConfig" model="panzoomModel" id="panzoom-resultado">
+                        <div>
+                            <table class="tabuleiro">
+                                <tr ng-repeat="linha in quadros" style="width: {{linha.length * 60}}px">
+                                    <td ng-repeat="quadro in linha">
+                                        <div ng-if="personagemNoQuadro(quadro)" class="quadro-personagem">
+                                            <img src="/avatar.png" width="60" height="60" />
+                                            <i class="{{direcaoToIcon()}}"></i>
+                                        </div>
+                                        <div ng-if="quadro.chegada" class="quadro-chegada">
+                                            <i class="fa fa-certificate"></i>
+                                        </div>
+                                        <div ng-if="quadro.inacessivel" class="{{'quadro-inacessivel ' + quadro.cssClass}}">
+                                            <i class="fa fa-close"></i>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </panzoom>
+                </div>
+            </div>
+
+            <div class="modal fade" id="modal-venceu" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <h4 class="modal-title" id="myModalLabel">Parabéns! Você conseguiu!</h4>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="proximaFase()">Próxima fase</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="modal fade" id="modal-perdeu" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <h4 class="modal-title" id="myModalLabel">Que pena, não deu certo...</h4>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="reiniciar()">Tentar novamente</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+</body>
