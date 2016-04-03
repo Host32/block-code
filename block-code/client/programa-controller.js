@@ -125,8 +125,23 @@
             $scope.programa = [];
         };
 
-        $scope.executar = function () {
+        function popPrograma() {
+            $scope.$apply(function () {
+                $scope.programa.shift();
+            });
+        }
 
+        function hideFirstPrograma() {
+            $('#execution-list .peca').first().addClass('animated rotateOutUpRight');
+
+            if ($scope.programa.length) {
+                setTimeout(popPrograma, 1000);
+                setTimeout(hideFirstPrograma, 1200);
+            }
+        }
+
+        $scope.executar = function () {
+            hideFirstPrograma();
         };
 
         $scope.panzoomConfig = {};

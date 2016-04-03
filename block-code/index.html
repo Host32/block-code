@@ -79,7 +79,7 @@
                             Arraste e solte as peças aqui
                         </div>
                         <div class="panel-body">
-                            <ul class="list-group" dnd-list="programa">
+                            <ul id="execution-list" class="list-group" dnd-list="programa">
                                 <li ng-repeat="peca in programa" dnd-draggable="peca" dnd-moved="programa.splice($index, 1)" dnd-effect-allowed="move" dnd-selected="selected = peca" ng-class="'list-group-item peca ' + {'selected': selected === peca}" style="background: {{peca.background}}">
                                     <span class="badge" style="background: {{peca.badgeBackground}}"><i class="{{peca.icon}}"></i></span> {{peca.label}}
                                 </li>
