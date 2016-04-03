@@ -46,6 +46,13 @@
 
     <main class="height-100">
         <div class="container-fluid height-100" ng-controller="ProgramaController">
+
+            <div id="processando" ng-class="{'hide': !processando}">
+                <div class="processando-text">
+                    <p>Processando...</p>
+                </div>
+            </div>
+
             <div class="row height-100">
                 <div class="col-xs-12 col-sm-3 col-md-2 height-100 left-panel">
                     <div>
@@ -120,5 +127,4 @@
             </div>
         </div>
     </main>
-
 </body>

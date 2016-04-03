@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angular.module('block-code').controller('ProgramaController', ['$scope', function ($scope) {
+    angular.module('block-code').controller('ProgramaController', ['$scope', '$timeout', function ($scope, $timeout) {
         $scope.selected = null;
 
         $scope.tabuleiro = {
@@ -14,7 +14,7 @@
                 x: 0,
                 y: 0
             },
-            direcaoInicial: 'cima'
+            direcaoInicial: 'baixo'
         };
 
         $scope.quadrosBanco = [
@@ -245,21 +245,25 @@
         }
 
         function popPrograma() {
-            $scope.$apply(function () {
-                processar($scope.programa.shift());
-            });
+            $scope.programa.shift();
         }
 
         function hideFirstPrograma() {
             $('#execution-list .peca').first().addClass('animated rotateOutUpRight');
 
             if ($scope.programa.length) {
-                setTimeout(popPrograma, 1000);
-                setTimeout(hideFirstPrograma, 1200);
+                processar($scope.programa[0]);
+
+                $timeout(popPrograma, 1000);
+                $timeout(hideFirstPrograma, 1200);
+            } else {
+                $scope.processando = false;
             }
         }
 
+        $scope.processando = false;
         $scope.executar = function () {
+            $scope.processando = true;
             hideFirstPrograma();
         };
 
