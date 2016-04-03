@@ -1,0 +1,56 @@
+<div ng-controller="CadastroTabuleiroController">
+    <div class="container">
+        <div class="row">
+            <form name="formCadastroTabuleiro" ng-submit="formCadastroTabuleiro.$valid && insereNovoQuadro()">
+                <fieldset class="form-group">
+                    <div class="container">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Nome da fase:</label>
+                                <input ng-model="tabuleiro.name" type="text" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Descrição:</label>
+                                <textarea ng-model="tabuleiro.descricao" class="form-control" rows="5" required></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="button" ng-click="addQuadro()" class="btn btn-primary">Adicionar quadro</button>
+                    </div>
+                    <div class="container">
+                        <div ng-repeat="quadro in tabuleiro.quadros" class="form-group">
+                            <div class="input-group">
+                                <label>Quadro {{$index+1}}</label>
+                                <span class="input-group-btn">
+                                    <button type="button" ng-click="removeQuadro($index)" class="btn btn-danger">
+                                        <i class="fa fa-close"></i>
+                                    </button>
+                                </span>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <input ng-model="quadro.inacessivel" type="checkbox" value="true">Inacessivel
+                                    <input ng-model="quadro.pontodechegada" type="checkbox" value="true">Ponto de chegada
+                                </div>
+                                <div class="form-group">
+                                    <label>X:</label>
+                                    <input ng-model="quadro.x" type="number" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Y:</label>
+                                    <input ng-model="quadro.y" type="number" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Cadastrar</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
