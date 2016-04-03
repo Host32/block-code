@@ -48,9 +48,6 @@
         <div class="container-fluid height-100" ng-controller="ProgramaController">
 
             <div id="processando" ng-class="{'hide': !processando}">
-                <div class="processando-text">
-                    <p>Processando...</p>
-                </div>
             </div>
 
             <div class="row height-100">
@@ -115,7 +112,7 @@
                                         <div ng-if="quadro.chegada" class="quadro-chegada">
                                             <i class="fa fa-certificate"></i>
                                         </div>
-                                        <div ng-if="quadro.inacessivel" class="quadro-inacessivel">
+                                        <div ng-if="quadro.inacessivel" class="{{'quadro-inacessivel ' + quadro.cssClass}}">
                                             <i class="fa fa-close"></i>
                                         </div>
                                     </td>
@@ -125,6 +122,40 @@
                     </panzoom>
                 </div>
             </div>
+
+            <div class="modal fade" id="modal-venceu" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <h4 class="modal-title" id="myModalLabel">Parabéns! Você conseguiu!</h4>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="proximaFase()">Próxima fase</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="modal fade" id="modal-perdeu" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <h4 class="modal-title" id="myModalLabel">Que pena, não deu certo...</h4>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="reiniciar()">Tentar novamente</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </main>
 </body>

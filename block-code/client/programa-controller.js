@@ -6,6 +6,8 @@
         $scope.selected = null;
 
         $scope.tabuleiro = {
+            jogadas3Estrela: 20,
+            jogadas2Estrela: 21,
             tamanho: {
                 x: 10,
                 y: 10
@@ -45,6 +47,13 @@
                 posicao: {
                     x: 6,
                     y: 9
+                }
+            }, {
+                pontoChegada: false,
+                inacessivel: true,
+                posicao: {
+                    x: 0,
+                    y: 1
                 }
             }
         ];
@@ -91,6 +100,7 @@
                 $scope.quadros[y].push({
                     x: x,
                     y: y,
+                    cssClass: '',
                     chegada: quadro && quadro.pontoChegada,
                     inacessivel: quadro && quadro.inacessivel
                 });
@@ -144,13 +154,44 @@
 
         $scope.programa = [];
 
-
         $scope.reiniciar = function () {
             $scope.programa = [];
             $scope.personagem.posicao.x = $scope.tabuleiro.posicaoInicial.x;
             $scope.personagem.posicao.y = $scope.tabuleiro.posicaoInicial.y;
             $scope.personagem.direcao = $scope.tabuleiro.direcaoInicial;
+
+            var x, y;
+
+            for (x = 0; x < $scope.tabuleiro.tamanho.x; x += 1) {
+                for (y = 0; y < $scope.tabuleiro.tamanho.y; y += 1) {
+                    $scope.quadros[y][x].cssClass = '';
+                }
+            }
         };
+
+        function ganhou() {
+            $('#modal-venceu').modal();
+        }
+
+        function perdeu() {
+            $('#modal-perdeu').modal();
+        }
+
+        function verificaSeGanhou() {
+            var quadro = buscaQuadro($scope.personagem.posicao.x, $scope.personagem.posicao.y);
+
+            return (quadro && quadro.pontoChegada);
+        }
+
+        function calculaEstrelas() {
+            if ($scope.programa.length <= $scope.tabuleiro.jogadas3Estrela) {
+                return 3;
+            } else if ($scope.programa.length <= $scope.tabuleiro.jogadas2Estrela) {
+                return 2;
+            } else {
+                return 1;
+            }
+        }
 
         /**
          * Verifica se a posição passada nos parâmetros é valida.
@@ -159,23 +200,21 @@
          */
         function validaPosicao(posicaoX, posicaoY) {
 
-            //                        var inacessiveis = Quadros.findOne({
-            //                            tabuleiroId: 5, // COLOCAR O ID CORRETo, QUE DEVE VIR EXTERNO
-            //                            posicao: {
-            //                                x: posicaoX,
-            //                                y: posicaoY
-            //                            },
-            //                            inacessivels: true
-            //                        }).fetch();
-            //
-            //                        if (inacessiveis) {
-            //
-            //                            return false;
-            //                        } else {
+            var quadro = buscaQuadro(posicaoX, posicaoY),
+                posicaoOk = true;
 
-            // COLOCAR O NOME CORRETO DO TABULEIRO
-            return (posicaoX < $scope.tabuleiro.tamanho.x && posicaoX >= 0 && posicaoY < $scope.tabuleiro.tamanho.y && posicaoY >= 0);
-            //               }
+            if (quadro && quadro.inacessivel) {
+                posicaoOk = false;
+                $scope.quadros[posicaoY][posicaoX].cssClass = 'animated tada';
+            } else {
+                posicaoOk = (posicaoX < $scope.tabuleiro.tamanho.x && posicaoX >= 0 && posicaoY < $scope.tabuleiro.tamanho.y && posicaoY >= 0);
+            }
+
+            if (!posicaoOk) {
+                $scope.programa.splice(1, $scope.programa.length);
+            }
+
+            return posicaoOk;
         }
 
 
@@ -244,7 +283,7 @@
             }
         }
 
-        function popPrograma() {
+        function reduzPrograma() {
             $scope.programa.shift();
         }
 
@@ -254,16 +293,26 @@
             if ($scope.programa.length) {
                 processar($scope.programa[0]);
 
-                $timeout(popPrograma, 1000);
+                $timeout(reduzPrograma, 1000);
                 $timeout(hideFirstPrograma, 1200);
             } else {
                 $scope.processando = false;
+
+                if (verificaSeGanhou()) {
+                    ganhou();
+                } else {
+                    perdeu();
+                }
             }
         }
 
         $scope.processando = false;
+        $scope.estrelasAGanhar = 0;
         $scope.executar = function () {
             $scope.processando = true;
+
+            $scope.estrelasAGanhar = calculaEstrelas();
+
             hideFirstPrograma();
         };
 
